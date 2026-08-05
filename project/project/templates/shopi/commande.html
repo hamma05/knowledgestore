@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .btn-danger {
+        
+        padding: 10px;
+        border: none;
+        background: #b54848;
+        color: white;
+        width: 100%;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        margin: 5px ;
+
+    }
+    .btn-danger:hover {
+        background: #b54848;
+    }
+</style>
+<section style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
+    <h2>Mes commandes</h2>
+
+    {% if commandes %}
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr>
+                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Image</th>
+                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Title</th>
+                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Author</th>
+                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Quantity</th>
+                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Price</th>
+                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Delivered</th>
+                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Adresse</th>
+                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in commandes %}
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">
+                    {% if c.book.image %}
+                    <img src="{{ c.book.image.url }}" alt="{{ c.book.title }}" style="width: 55px; height: 75px; object-fit: cover; border-radius: 6px;">
+                    {% elif c.book.urlimg %}
+                    <img src="{{ c.book.urlimg }}" alt="{{ c.book.title }}" style="width: 55px; height: 75px; object-fit: cover; border-radius: 6px;">
+                    {% else %}
+                    <span style="color: #888;">No image</span>
+                    {% endif %}
+                </td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ c.book.title}}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ c.book.author }}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ c.quantity }}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ c.book.price }}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ c.commande.delivered }}</td>
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ c.commande.adresse }}</td>
+
+                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ c.get_total_price }}</td>
+                <td><a href="{% url 'supprimer_du_commande' c.id %}" class="btn btn-danger" >Annuler </a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>no commande yet .</p>
+    <p><a href="{% url 'shop' %}" class="btn btn-danger" >Continue shopping</a></p>
+    {% endif %}
+</section>
+{% endblock %}

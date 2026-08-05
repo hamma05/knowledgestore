@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ title }} - Knowledge Store{% endblock %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="max-w-lg mx-auto">
+<div class="flex items-center gap-4 mb-8">
+<a href="{% url 'saved_addresses' %}" class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">arrow_back</span>
+</a>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary">{{ title }}</h1>
+</div>
+<form method="post" class="flex flex-col gap-6">
+{% csrf_token %}
+<div>
+<label class="text-label-md font-label-md text-on-surface-variant mb-2 block">Address</label>
+{{ form.address }}
+</div>
+<div>
+<label class="text-label-md font-label-md text-on-surface-variant mb-2 block">Postal Code</label>
+{{ form.code_postal }}
+</div>
+<div>
+<label class="text-label-md font-label-md text-on-surface-variant mb-2 block">Phone Number</label>
+{{ form.phone_number }}
+</div>
+<div class="flex gap-4 mt-4">
+<button type="submit" class="bg-primary-container text-on-primary-container px-8 py-3 rounded text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors">
+Save
+</button>
+<a href="{% url 'saved_addresses' %}" class="bg-transparent border border-outline text-primary px-8 py-3 rounded text-label-md font-label-md hover:bg-surface-container-low transition-colors">
+Cancel
+</a>
+</div>
+</form>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ author_name }} - Knowledge Store{% endblock %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<a href="{% url 'authors' %}" class="inline-flex items-center gap-2 text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors mb-8">
+<span class="material-symbols-outlined">arrow_back</span>
+Back to Authors
+</a>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary mb-2">{{ author_name }}</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mb-10">{{ books.count }} book{{ books.count|pluralize }}</p>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+{% for book in books %}
+<div class="group cursor-pointer bg-surface-container-lowest ambient-shadow-lvl1 rounded-xl overflow-hidden flex flex-col transition-transform hover:-translate-y-1 duration-300">
+<div class="h-64 relative overflow-hidden bg-surface-container p-6 flex items-center justify-center">
+{% if book.image %}
+<img class="max-h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-700" src="{{ book.image.url }}" alt="{{ book.title }}"/>
+{% elif book.urlimg %}
+<img class="max-h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-700" src="{{ book.urlimg }}" alt="{{ book.title }}"/>
+{% else %}
+<div class="w-full h-full flex items-center justify-center bg-surface-container">
+<span class="text-on-surface-variant text-label-md">No image</span>
+</div>
+{% endif %}
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="text-title-lg font-title-lg text-primary mb-1">
+<a href="{% url 'book_detail' book.id %}" class="hover:underline">{{ book.title }}</a>
+</h3>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-widest mb-4">{{ book.author }}</p>
+<div class="mt-auto flex justify-between items-center">
+<span class="text-body-lg font-body-lg text-on-surface">{{ book.price }} TND</span>
+{% if request.user.is_authenticated %}
+<a href="{% url 'ajouter_au_panier' book.id %}" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</a>
+{% else %}
+<a href="{% url 'login' %}" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">login</span>
+</a>
+{% endif %}
+</div>
+</div>
+</div>
+{% empty %}
+<p class="text-on-surface-variant col-span-4">No books found for this author.</p>
+{% endfor %}
+</div>
+</section>
+{% endblock %}

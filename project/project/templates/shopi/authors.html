@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Authors - Knowledge Store{% endblock %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-tertiary-fixed-dim/30">
+<div>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary mb-2">Authors</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Explore our curated collection of authors.</p>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+{% for author in authors %}
+<a href="{% url 'author_books' author %}" class="block">
+<div class="group cursor-pointer bg-surface-container-lowest rounded-xl overflow-hidden shadow-sm border border-outline-variant/20 hover:-translate-y-1 transition-transform duration-300">
+<div class="h-48 bg-surface-container relative overflow-hidden">
+<div class="w-full h-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] text-on-surface-variant">person</span>
+</div>
+</div>
+<div class="p-6">
+<h3 class="text-title-lg font-title-lg text-primary mb-1">{{ author }}</h3>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-widest">View Books</p>
+</div>
+</div>
+</a>
+{% empty %}
+<p class="text-on-surface-variant col-span-3">No authors available yet.</p>
+{% endfor %}
+</div>
+</section>
+{% endblock %}

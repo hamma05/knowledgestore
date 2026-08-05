@@ -1,0 +1,185 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>{% block title %}Knowledge Store{% endblock %}</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "surface-container-high": "#dce9ff",
+        "on-primary-container": "#7c839b",
+        "on-secondary-container": "#626360",
+        "on-primary": "#ffffff",
+        "error": "#ba1a1a",
+        "primary-fixed": "#dae2fd",
+        "on-surface-variant": "#45464d",
+        "on-primary-fixed-variant": "#3f465c",
+        "surface-container-lowest": "#ffffff",
+        "on-tertiary-fixed": "#271900",
+        "surface-container-low": "#eff4ff",
+        "on-secondary-fixed-variant": "#464744",
+        "secondary-container": "#e0e0dc",
+        "surface-container-highest": "#d5e3fc",
+        "on-error-container": "#93000a",
+        "on-tertiary": "#ffffff",
+        "surface": "#f8f9ff",
+        "primary-container": "#131b2e",
+        "on-background": "#0d1c2e",
+        "primary-fixed-dim": "#bec6e0",
+        "on-secondary": "#ffffff",
+        "error-container": "#ffdad6",
+        "surface-variant": "#d5e3fc",
+        "tertiary": "#000000",
+        "secondary": "#5e5f5c",
+        "on-tertiary-fixed-variant": "#5e4200",
+        "tertiary-fixed": "#ffdea8",
+        "on-secondary-fixed": "#1b1c1a",
+        "secondary-fixed": "#e3e2df",
+        "on-tertiary-container": "#a47e33",
+        "surface-dim": "#ccdbf3",
+        "inverse-primary": "#bec6e0",
+        "on-primary-fixed": "#131b2e",
+        "surface-container": "#e6eeff",
+        "tertiary-container": "#271900",
+        "outline": "#76777d",
+        "on-surface": "#0d1c2e",
+        "inverse-on-surface": "#eaf1ff",
+        "outline-variant": "#c6c6cd",
+        "tertiary-fixed-dim": "#edc06e",
+        "surface-bright": "#f8f9ff",
+        "background": "#f8f9ff",
+        "secondary-fixed-dim": "#c7c7c3",
+        "inverse-surface": "#233144",
+        "surface-tint": "#565e74",
+        "on-error": "#ffffff",
+        "primary": "#000000"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "container-max": "1280px",
+        "margin-mobile": "20px",
+        "margin-desktop": "64px",
+        "unit": "8px",
+        "gutter": "24px"
+      },
+      "fontFamily": {
+        "label-md": ["Inter"],
+        "display-lg-mobile": ["Playfair Display"],
+        "title-lg": ["Inter"],
+        "body-md": ["Inter"],
+        "headline-sm": ["Playfair Display"],
+        "headline-md": ["Playfair Display"],
+        "caption": ["Inter"],
+        "body-lg": ["Inter"],
+        "display-lg": ["Playfair Display"]
+      },
+      "fontSize": {
+        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+        "display-lg-mobile": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+        "title-lg": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+        "headline-sm": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+        "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+      }
+    }
+  }
+}
+</script>
+<style>
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  .hide-scroll::-webkit-scrollbar { display: none; }
+  .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+  .ambient-shadow-lvl1 { box-shadow: 0 4px 20px rgba(13, 28, 46, 0.04); }
+  .card-shadow { box-shadow: 0 4px 20px rgba(13, 28, 46, 0.04); }
+  .input-ledger { border: none; border-bottom: 1px solid theme('colors.outline'); background-color: transparent; border-radius: 0; padding: 8px 0; }
+  .input-ledger:focus { outline: none; box-shadow: none; border-bottom-color: theme('colors.primary'); }
+  .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .line-clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+</style>
+{% block extra_head %}{% endblock %}
+</head>
+<body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-surface-dim selection:text-on-surface min-h-screen flex flex-col">
+
+<header class="bg-surface dark:bg-surface-container-low shadow-sm dark:shadow-none border-b border-outline-variant/30 dark:border-outline-variant/10 sticky top-0 z-50 w-full">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
+<div class="flex items-center">
+<a class="text-headline-md font-headline-md text-primary dark:text-on-surface tracking-tight" href="{% url 'home' %}">Knowledge Store</a>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="{% if request.path == '/shop/' %}text-primary dark:text-on-surface border-b-2 border-primary pb-1{% else %}text-on-surface-variant dark:text-outline hover:text-primary transition-colors{% endif %} text-label-md font-label-md transition-all duration-300 ease-in-out" href="{% url 'shop' %}">Shop</a>
+<a class="{% if request.path == '/' %}text-primary dark:text-on-surface border-b-2 border-primary pb-1{% else %}text-on-surface-variant dark:text-outline hover:text-primary transition-colors{% endif %} text-label-md font-label-md transition-all duration-300 ease-in-out" href="{% url 'home' %}">Discovery</a>
+<a class="{% if request.path == '/authors/' %}text-primary dark:text-on-surface border-b-2 border-primary pb-1{% else %}text-on-surface-variant dark:text-outline hover:text-primary transition-colors{% endif %} text-label-md font-label-md transition-all duration-300 ease-in-out" href="{% url 'authors' %}">Authors</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative hidden sm:block">
+<form action="{% url 'search' %}" method="get" class="flex items-center">
+<input name="q" class="bg-surface-container-lowest border-0 border-b border-outline-variant text-body-md font-body-md focus:ring-0 focus:border-primary pl-0 pr-8 py-2 w-48 transition-all hover:border-outline bg-transparent placeholder-on-surface-variant/50" placeholder="Search curated titles..." type="text" value="{{ query|default:'' }}"/>
+<button type="submit" class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none cursor-pointer">search</button>
+</form>
+</div>
+{% if request.user.is_authenticated %}
+<a href="{% url 'panier' request.user.id %}" class="p-2 text-on-surface-variant hover:text-primary dark:hover:text-on-surface-variant transition-all rounded-full flex items-center justify-center relative">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="absolute -top-1 -right-1 bg-tertiary-fixed-dim text-on-tertiary-fixed text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{{ request.user.panier_set.count }}</span>
+</a>
+<a href="{% url 'commande' request.user.id %}" class="p-2 text-on-surface-variant hover:text-primary dark:hover:text-on-surface-variant transition-all rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">receipt_long</span>
+</a>
+<a href="{% url 'saved_addresses' %}" class="p-2 text-on-surface-variant hover:text-primary dark:hover:text-on-surface-variant transition-all rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">home</span>
+</a>
+<a href="{% url 'logout' %}" class="p-2 text-on-surface-variant hover:text-primary dark:hover:text-on-surface-variant transition-all rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">logout</span>
+</a>
+{% else %}
+<a href="{% url 'login' %}" class="p-2 text-on-surface-variant hover:text-primary dark:hover:text-on-surface-variant transition-all rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined">person</span>
+</a>
+{% endif %}
+</div>
+</div>
+</header>
+
+<main class="flex-grow w-full">
+{% block content %}{% endblock %}
+</main>
+
+<footer class="bg-surface-container dark:bg-surface-container-lowest border-t border-outline-variant/50 shadow-none w-full py-16 mt-auto">
+<div class="flex flex-col items-center justify-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<a class="text-headline-sm font-headline-sm text-primary mb-8" href="{% url 'home' %}">Knowledge Store</a>
+<nav class="flex flex-wrap justify-center gap-6 md:gap-10 mb-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">About Us</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Shipping Policy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Privacy</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Terms of Service</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors text-label-md font-label-md" href="#">Contact</a>
+</nav>
+<p class="text-body-md font-body-md text-on-surface-variant text-center opacity-70">
+    &copy; 2026 Knowledge Store. Curated with care for the discerning reader.
+</p>
+</div>
+</footer>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

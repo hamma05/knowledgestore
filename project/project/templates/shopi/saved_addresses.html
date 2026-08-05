@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Saved Addresses - Knowledge Store{% endblock %}
+
+{% block content %}
+<div class="flex-1 flex max-w-container-max mx-auto w-full px-margin-mobile md:px-margin-desktop py-12 gap-12">
+<aside class="hidden lg:flex flex-col w-64 flex-shrink-0">
+<div class="mb-10 pb-6 border-b border-outline-variant/30">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-surface-container p-3 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-primary">Welcome Reader</h2>
+<p class="text-caption font-caption text-on-surface-variant mt-1">Knowledge Store Member</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+
+<a href="{% url 'saved_addresses' %}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold bg-surface-container-high dark:bg-surface-container-highest transition-transform scale-[0.98]">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-md font-label-md">Saved Addresses</span>
+</a>
+<a href="{% url 'order_history' %}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-label-md font-label-md">Order History</span>
+</a>
+</nav>
+</aside>
+<div class="flex-1 min-w-0">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-tertiary-fixed-dim/30">
+<div>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary mb-2">Saved Addresses</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Manage your delivery locations for a seamless checkout experience.</p>
+</div>
+<a href="{% url 'add_address' %}" class="mt-6 md:mt-0 bg-primary text-on-primary px-6 py-3 rounded text-label-md font-label-md hover:bg-on-background transition-colors flex items-center gap-2 self-start">
+<span class="material-symbols-outlined">add</span>
+Add New Address
+</a>
+</div>
+<div class="flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-lg p-6 card-shadow border border-outline-variant/20 relative group hover:-translate-y-1 transition-transform duration-300">
+<div class="absolute top-6 right-6">
+<span class="bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded text-caption font-caption tracking-wider uppercase">Default</span>
+</div>
+<div class="flex items-start gap-4 mb-4">
+<div class="bg-surface-container p-3 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined">house</span>
+</div>
+<div>
+<h3 class="text-title-lg font-title-lg text-primary mb-1">Home Address</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-1">{{ user.username }}</p>
+</div>
+</div>
+<div class="pl-16 mb-6">
+<p class="text-body-md font-body-md text-on-surface-variant leading-relaxed">
+    {{ user.address|default:"No address set" }}<br/>
+    {% if user.code_postal %}
+    {{ user.code_postal }}<br/>
+    {% endif %}
+    {% if user.phone_number %}
+    {{ user.phone_number }}
+    {% endif %}
+</p>
+</div>
+<div class="pl-16 flex gap-4 pt-4 border-t border-outline-variant/20">
+<a href="{% url 'edit_address' %}" class="text-label-md font-label-md text-secondary underline hover:text-primary transition-colors">Edit</a>
+<a href="{% url 'delete_address' %}" class="text-label-md font-label-md text-secondary underline hover:text-error transition-colors">Remove</a>
+</div>
+</div>
+</div>
+</div>
+{% endblock %}

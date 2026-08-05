@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% block title %}Discovery - Knowledge Store{% endblock %}
+
+{% block content %}
+<main class="flex-grow w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto py-margin-mobile md:py-margin-desktop flex flex-col md:flex-row gap-gutter">
+<aside class="w-full md:w-64 flex-shrink-0 mb-8 md:mb-0">
+<div class="sticky top-28 bg-surface-container-lowest ambient-shadow-lvl1 rounded-xl p-6 hide-scroll overflow-y-auto max-h-[calc(100vh-160px)]">
+<div class="flex items-center justify-between mb-6 pb-4 border-b border-outline-variant/30">
+<h2 class="text-title-lg font-title-lg text-on-surface">Filters</h2>
+<a href="{% url 'shop' %}" class="text-label-md font-label-md text-on-surface-variant hover:text-primary transition-colors underline">Clear All</a>
+</div>
+<div class="mb-8">
+<h3 class="text-body-md font-body-md font-semibold text-on-surface mb-4">Genre</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary border-outline-variant rounded-sm focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="text-body-md font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Classic Literature</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary border-outline-variant rounded-sm focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="text-body-md font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Philosophy</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-checkbox h-4 w-4 text-primary border-outline-variant rounded-sm focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="text-body-md font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Modern Fiction</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-checkbox h-4 w-4 text-primary border-outline-variant rounded-sm focus:ring-primary focus:ring-offset-surface" type="checkbox"/>
+<span class="text-body-md font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Poetry</span>
+</label>
+</div>
+</div>
+<div class="h-px w-full bg-outline-variant/30 mb-8 relative">
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-container-lowest px-2">
+<span class="block w-1.5 h-1.5 rotate-45 bg-outline-variant"></span>
+</div>
+</div>
+<div class="mb-8">
+<h3 class="text-body-md font-body-md font-semibold text-on-surface mb-4">Price</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-radio h-4 w-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-surface" name="price" type="radio"/>
+<span class="text-body-md font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Under $50</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="form-radio h-4 w-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-surface" name="price" type="radio"/>
+<span class="text-body-md font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">$50 - $150</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="form-radio h-4 w-4 text-primary border-outline-variant focus:ring-primary focus:ring-offset-surface" name="price" type="radio"/>
+<span class="text-body-md font-body-md text-on-surface-variant group-hover:text-on-surface transition-colors">Over $150</span>
+</label>
+</div>
+</div>
+<div class="h-px w-full bg-outline-variant/30 mb-8 relative">
+<div class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 bg-surface-container-lowest px-2">
+<span class="block w-1.5 h-1.5 rotate-45 bg-outline-variant"></span>
+</div>
+</div>
+<div class="mb-4">
+<h3 class="text-body-md font-body-md font-semibold text-on-surface mb-4">Format</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-3 py-1 bg-tertiary-fixed text-on-tertiary-container rounded-full text-label-md font-label-md hover:bg-tertiary-fixed-dim transition-colors">Hardcover</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-label-md font-label-md hover:bg-surface-container-high transition-colors">Leatherbound</button>
+<button class="px-3 py-1 bg-surface-container text-on-surface-variant rounded-full text-label-md font-label-md hover:bg-surface-container-high transition-colors">Folio</button>
+</div>
+</div>
+</div>
+</aside>
+<div class="flex-grow flex flex-col">
+<div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 gap-4">
+<h1 class="text-headline-md font-headline-md text-on-surface">
+    {% if query %}Search results for "{{ query }}"
+    {% else %}Curated Collection
+    {% endif %}
+    <span class="text-body-lg font-body-lg text-on-surface-variant font-normal ml-2">({{ books_count }} Volumes)</span>
+</h1>
+<div class="flex items-center gap-3">
+<span class="text-label-md font-label-md text-on-surface-variant">Sort by:</span>
+<select class="bg-surface-container-lowest border-0 border-b border-outline-variant text-body-md font-body-md focus:ring-0 focus:border-primary py-1 pr-8 pl-0 cursor-pointer bg-transparent">
+<option>Curated Selection</option>
+<option>Newest Arrivals</option>
+<option>Price: Low to High</option>
+<option>Price: High to Low</option>
+</select>
+</div>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-gutter">
+{% for book in books %}
+<div class="group cursor-pointer bg-surface-container-lowest ambient-shadow-lvl1 rounded-xl overflow-hidden flex flex-col transition-transform hover:-translate-y-1 duration-300">
+<div class="h-64 relative overflow-hidden bg-surface-container p-6 flex items-center justify-center">
+{% if book.image %}
+<img class="max-h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-700" src="{{ book.image.url }}" alt="{{ book.title }}"/>
+{% elif book.urlimg %}
+<img class="max-h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-700" src="{{ book.urlimg }}" alt="{{ book.title }}"/>
+{% else %}
+<div class="w-full h-full flex items-center justify-center bg-surface-container">
+<span class="text-on-surface-variant text-label-md">No image</span>
+</div>
+{% endif %}
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="text-title-lg font-title-lg text-primary mb-1">
+<a href="{% url 'book_detail' book.id %}" class="hover:underline">{{ book.title }}</a>
+</h3>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-widest mb-4">{{ book.author }}</p>
+<div class="mt-auto flex justify-between items-center">
+<span class="text-body-lg font-body-lg text-on-surface">{{ book.price }} TND</span>
+{% if request.user.is_authenticated %}
+<a href="{% url 'ajouter_au_panier' book.id %}" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</a>
+{% else %}
+<a href="{% url 'login' %}" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">login</span>
+</a>
+{% endif %}
+</div>
+</div>
+</div>
+{% empty %}
+<p class="text-on-surface-variant col-span-3">No books available yet.</p>
+{% endfor %}
+</div>
+<div class="mt-12 flex justify-center items-center gap-4 border-t border-outline-variant/30 pt-8">
+<button class="text-on-surface-variant hover:text-primary disabled:opacity-50 transition-colors" disabled>
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<span class="text-label-md font-label-md text-on-surface">Page 1 of 1</span>
+<button class="text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</main>
+{% endblock %}

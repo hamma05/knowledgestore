@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Knowledge Store - Home{% endblock %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-24">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter items-center">
+<div class="md:col-span-5 flex flex-col gap-6 order-2 md:order-1">
+<span class="text-on-tertiary-container bg-tertiary-fixed px-3 py-1 rounded-sm w-max text-label-md font-label-md uppercase tracking-widest shadow-sm">Book of the Month</span>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary leading-tight">
+    The Architect's Shadow
+</h1>
+<p class="text-body-lg font-body-lg text-on-surface-variant max-w-md">
+    A masterful exploration of space, memory, and the structures we build to contain our pasts. Winner of the Modern Heritage Prize.
+</p>
+<div class="flex items-center gap-4 mt-4">
+<a href="{% url 'shop' %}" class="bg-primary-container text-on-primary-container px-8 py-3 rounded-DEFAULT text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors shadow-sm">
+    Our Library
+</a>
+
+</div>
+</div>
+<div class="md:col-span-7 grid grid-cols-2 gap-4 h-[500px] md:h-[600px] order-1 md:order-2">
+<div class="col-span-2 md:col-span-1 rounded-xl overflow-hidden shadow-sm relative group bg-surface-container-lowest border border-outline-variant/30 p-4">
+<img class="w-full h-full object-cover rounded-lg group-hover:scale-[1.02] transition-transform duration-500 ease-out" src="{% static 'knowledgestore/images/bokhari.png' %}" alt="Featured book cover"/>
+</div>
+<div class="hidden md:grid grid-rows-[auto_1fr] gap-4">
+<div class="rounded-xl overflow-hidden shadow-sm bg-surface-container-low p-6 flex flex-col justify-center border border-outline-variant/30">
+<h3 class="text-headline-sm font-headline-sm text-primary mb-2">Author Notes</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">"
+وأمّا من أُوتي العلم مع الإيمان؛ فهذا لا يُرفع من صدره، ومثل هذا لا يرتد عن الإسلام قط，
+بخلاف مجرد القرآن، أو مجرد الإيمان، فإن هذا قد يرتفع، فهذا هو الواقع。
+لكن أكثر ما نجد الردة في من عنده قرآن بلا علمٍ وإيمانٍ، أو من عنده إيمانٌ بلا علمٍ وقرآنٍ，
+فأما من أُوتي القرآن والإيمان فحصل فيه العِلمُ؛ فهذا لا يُرفع من صدره؛ والله أعلم"</p>
+<span class="text-label-md font-label-md text-on-tertiary-container mt-4 block"> ابن تيمية رحمه الله:</span>
+</div>
+<div class="rounded-xl overflow-hidden shadow-sm relative border border-outline-variant/30">
+<img class="w-full h-full object-cover" src="{% static 'knowledgestore/images/moslim.jpg' %}" alt="Book page texture"/>
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<div class="w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop my-8">
+<div class="h-px w-full bg-outline-variant/30 relative flex items-center justify-center">
+<div class="bg-surface px-4 absolute">
+<span class="material-symbols-outlined text-outline-variant text-sm">diamond</span>
+</div>
+</div>
+</div>
+
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h2 class="text-headline-sm font-headline-sm text-primary">Editor's Curation</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mt-2">Volumes selected for their enduring relevance.</p>
+</div>
+<a class="hidden md:flex text-label-md font-label-md text-on-surface-variant underline hover:text-primary transition-colors" href="{% url 'shop' %}">View All Curations</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<div class="md:col-span-8 group cursor-pointer">
+
+</div>
+<br>
+<div class="md:col-span-4 grid grid-cols-2 gap-4">
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest rounded-xl p-3 shadow-sm border border-outline-variant/20 mb-3 h-[120px] overflow-hidden">
+<img class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-500 ease-in-out" src="{% static 'knowledgestore/images/6740315.jpg' %}" alt="Book"/>
+</div>
+<h4 class="text-caption font-caption text-primary mb-1">Al-Arba'in al-Nawawiyyah</h4>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-wider">IMAM AN-NAWAWI</p>
+</div>
+<div class="group cursor-pointer">
+<div class="bg-surface-container-lowest rounded-xl p-3 shadow-sm border border-outline-variant/20 mb-3 h-[120px] overflow-hidden">
+<img class="w-full h-full object-cover rounded-lg group-hover:scale-105 transition-transform duration-500 ease-in-out" src="{% static 'knowledgestore/images/ihya.jpg' %}" alt="Book"/>
+</div>
+<h4 class="text-caption font-caption text-primary mb-1">Ihya Ulum al-Din</h4>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-wider">IMAM AL-GHAZALI</p>
+</div>
+</div>
+</div>
+</section>
+
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16">
+<h2 class="text-headline-md font-headline-md text-primary mb-12">Featured Books</h2>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+{% for book in featured_books %}
+<div class="group cursor-pointer bg-surface-container-lowest ambient-shadow-lvl1 rounded-xl overflow-hidden flex flex-col transition-transform hover:-translate-y-1 duration-300">
+<div class="h-64 relative overflow-hidden bg-surface-container p-6 flex items-center justify-center">
+{% if book.image %}
+<img class="max-h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-700" src="{{ book.image.url }}" alt="{{ book.title }}"/>
+{% elif book.urlimg %}
+<img class="max-h-full object-contain drop-shadow-lg group-hover:scale-105 transition-transform duration-700" src="{{ book.urlimg }}" alt="{{ book.title }}"/>
+{% else %}
+<div class="w-full h-full flex items-center justify-center bg-surface-container">
+<span class="text-on-surface-variant text-label-md">No image</span>
+</div>
+{% endif %}
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="text-title-lg font-title-lg text-primary mb-1">
+<a href="{% url 'book_detail' book.id %}" class="hover:underline">{{ book.title }}</a>
+</h3>
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-widest mb-4">{{ book.author }}</p>
+<div class="mt-auto flex justify-between items-center">
+<span class="text-body-lg font-body-lg text-on-surface">{{ book.price }} TND</span>
+{% if request.user.is_authenticated %}
+<a href="{% url 'ajouter_au_panier' book.id %}" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">add_shopping_cart</span>
+</a>
+{% else %}
+<a href="{% url 'login' %}" class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">login</span>
+</a>
+{% endif %}
+</div>
+</div>
+</div>
+{% empty %}
+<p class="text-on-surface-variant col-span-4">No books available yet.</p>
+{% endfor %}
+</div>
+</section>
+{% endblock %}

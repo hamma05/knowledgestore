@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="max-w-lg mx-auto">
+<h2 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary mb-2">Adresse de livraison</h2>
+<p class="text-body-md font-body-md text-on-surface-variant mb-8">Confirmez votre adresse avant de valider la commande.</p>
+
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/20 mb-8">
+<h3 class="text-title-lg font-title-lg text-primary mb-4">Résumé de la commande</h3>
+<div class="flex items-center gap-4 mb-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container flex-shrink-0">
+{% if panier_item.book.image %}
+<img class="w-full h-full object-cover" src="{{ panier_item.book.image.url }}" alt="{{ panier_item.book.title }}"/>
+{% elif panier_item.book.urlimg %}
+<img class="w-full h-full object-cover" src="{{ panier_item.book.urlimg }}" alt="{{ panier_item.book.title }}"/>
+{% else %}
+<div class="w-full h-full flex items-center justify-center bg-surface-container text-on-surface-variant text-caption">No image</div>
+{% endif %}
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-label-md font-label-md text-primary truncate">{{ panier_item.book.title }}</h4>
+<p class="text-caption font-caption text-on-surface-variant">x{{ panier_item.quantity }}</p>
+</div>
+<div class="text-right flex-shrink-0">
+<p class="text-label-md font-label-md text-on-surface-variant">{{ panier_item.get_total_price }} TND</p>
+</div>
+</div>
+</div>
+
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/20 mb-8">
+<h3 class="text-title-lg font-title-lg text-primary mb-4">Adresse de livraison</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-2">{{ user.address|default:"No address set" }}</p>
+{% if user.code_postal %}
+<p class="text-caption font-caption text-on-surface-variant mb-2">{{ user.code_postal }}</p>
+{% endif %}
+{% if user.phone_number %}
+<p class="text-caption font-caption text-on-surface-variant mb-2">{{ user.phone_number }}</p>
+{% endif %}
+<a href="{% url 'edit_address' %}" class="text-label-md font-label-md text-primary underline hover:text-on-primary transition-colors">Modifier l'adresse</a>
+</div>
+
+<form method="post">
+{% csrf_token %}
+<div class="flex gap-4">
+<button type="submit" class="bg-primary-container text-on-primary-container px-8 py-3 rounded text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors">
+Confirmer la commande
+</button>
+<a href="{% url 'panier' request.user.id %}" class="bg-transparent border border-outline text-primary px-8 py-3 rounded text-label-md font-label-md hover:bg-surface-container-low transition-colors">
+Retour au panier
+</a>
+</div>
+</form>
+</div>
+</section>
+{% endblock %}

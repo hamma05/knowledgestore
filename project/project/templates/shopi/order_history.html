@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Order History - Knowledge Store{% endblock %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<div class="flex flex-col md:flex-row gap-8">
+<aside class="hidden lg:flex flex-col w-64 flex-shrink-0">
+<div class="mb-10 pb-6 border-b border-outline-variant/30">
+<div class="flex items-center gap-4 mb-4">
+<div class="bg-surface-container p-3 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined">person</span>
+</div>
+<div>
+<h2 class="text-headline-sm font-headline-sm text-primary">Welcome Reader</h2>
+<p class="text-caption font-caption text-on-surface-variant mt-1">Knowledge Store Member</p>
+</div>
+</div>
+</div>
+<nav class="flex flex-col gap-2">
+
+<a href="{% url 'saved_addresses' %}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">home</span>
+<span class="text-label-md font-label-md">Saved Addresses</span>
+</a>
+<a href="{% url 'order_history' %}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold bg-surface-container-high dark:bg-surface-container-highest transition-transform scale-[0.98]">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="text-label-md font-label-md">Order History</span>
+</a>
+</nav>
+</aside>
+<div class="flex-1 min-w-0">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-tertiary-fixed-dim/30">
+<div>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary mb-2">Order History</h1>
+<p class="text-body-md font-body-md text-on-surface-variant">Track and manage your past orders.</p>
+</div>
+</div>
+{% if commandes %}
+<div class="flex flex-col gap-6">
+{% for commande in commandes %}
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/20">
+<div class="flex flex-col md:flex-row md:items-center justify-between mb-4 pb-4 border-b border-outline-variant/20">
+<div>
+<span class="text-label-md font-label-md text-on-surface-variant">Order #</span>
+<span class="text-label-md font-label-md text-primary font-bold">{{ commande.id }}</span>
+<span class="text-caption font-caption text-on-surface-variant ml-4">{{ commande.date_commande|date:"M d, Y" }}</span>
+</div>
+<div class="flex items-center gap-2 mt-2 md:mt-0">
+<span class="text-caption font-caption px-3 py-1 rounded-full {% if commande.delivered %}bg-tertiary-fixed text-on-tertiary-container{% else %}bg-surface-container text-on-surface-variant{% endif %}">
+{% if commande.delivered %}Delivered{% else %}Processing{% endif %}
+</span>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+{% for item in commande_items %}
+{% if item.commande_id == commande.id %}
+<div class="flex items-center gap-4">
+<div class="w-16 h-16 rounded-lg overflow-hidden bg-surface-container flex-shrink-0">
+{% if item.book.image %}
+<img class="w-full h-full object-cover" src="{{ item.book.image.url }}" alt="{{ item.book.title }}"/>
+{% elif item.book.urlimg %}
+<img class="w-full h-full object-cover" src="{{ item.book.urlimg }}" alt="{{ item.book.title }}"/>
+{% else %}
+<div class="w-full h-full flex items-center justify-center text-on-surface-variant text-caption">No image</div>
+{% endif %}
+</div>
+<div class="flex-1 min-w-0">
+<h4 class="text-label-md font-label-md text-primary truncate">{{ item.book.title }}</h4>
+<p class="text-caption font-caption text-on-surface-variant">by {{ item.book.author }}</p>
+</div>
+<div class="text-right flex-shrink-0">
+<p class="text-label-md font-label-md text-on-surface-variant">x{{ item.quantity }}</p>
+<p class="text-caption font-caption text-on-surface-variant">{{ item.get_total_price }} TND</p>
+</div>
+</div>
+{% endif %}
+{% endfor %}
+</div>
+<div class="flex flex-col md:flex-row md:items-center justify-between mt-4 pt-4 border-t border-outline-variant/20">
+<div class="text-label-md font-label-md text-on-surface-variant">
+Delivered to: {{ commande.adresse }}
+</div>
+<div class="text-label-md font-label-md text-primary mt-2 md:mt-0">
+Total: {% for item in commande_items %}{% if item.commande_id == commande.id %}{{ item.get_total_price }}{% endif %}{% endfor %} TND
+</div>
+</div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<div class="bg-surface-container-lowest rounded-xl p-12 text-center border border-outline-variant/20">
+<div class="bg-surface-container p-4 rounded-full text-primary mb-4 mx-auto w-max">
+<span class="material-symbols-outlined text-[32px]">receipt_long</span>
+</div>
+<h3 class="text-title-lg font-title-lg text-primary mb-2">No orders yet</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Your order history will appear here once you place an order.</p>
+<a href="{% url 'shop' %}" class="mt-6 inline-block bg-primary-container text-on-primary-container px-6 py-3 rounded text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors">
+Start Shopping
+</a>
+</div>
+{% endif %}
+</div>
+</div>
+</section>
+{% endblock %}

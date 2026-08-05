@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - Knowledge Store{% endblock %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16">
+<div class="max-w-md mx-auto bg-surface-container-lowest rounded-xl p-8 shadow-ambient border border-outline-variant/20">
+<h2 class="text-headline-md font-headline-md text-primary mb-8 text-center">Welcome Back</h2>
+<form method="post" class="space-y-6">
+{% csrf_token %}
+<div>
+<label for="username" class="text-label-md font-label-md text-on-surface-variant block mb-2">Username</label>
+<input id="username" name="username" type="text" value="{{ username|default:'' }}" class="input-ledger w-full text-body-md font-body-md" placeholder="Enter your username"/>
+</div>
+<div>
+<label for="password" class="text-label-md font-label-md text-on-surface-variant block mb-2">Password</label>
+<input id="password" name="password" type="password" class="input-ledger w-full text-body-md font-body-md" placeholder="Enter your password"/>
+</div>
+{% if error %}
+<p class="text-error text-label-md font-label-md">{{ error }}</p>
+{% endif %}
+<button type="submit" class="w-full bg-primary-container text-on-primary-container px-6 py-3 rounded-DEFAULT text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors shadow-sm">
+    Sign In
+</button>
+</form>
+<p class="text-center text-label-md font-label-md text-on-surface-variant mt-6">
+    Don't have an account?
+    <a href="{% url 'register' %}" class="text-primary hover:underline">Create one</a>
+</p>
+</div>
+</section>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Knowledge Store{% endblock %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16">
+<div class="max-w-md mx-auto bg-surface-container-lowest rounded-xl p-8 shadow-ambient border border-outline-variant/20">
+<h2 class="text-headline-md font-headline-md text-primary mb-8 text-center">Create an Account</h2>
+<form method="post" class="space-y-6">
+{% csrf_token %}
+<div>
+<label for="email" class="text-label-md font-label-md text-on-surface-variant block mb-2">Email</label>
+<input id="email" name="email" type="email" value="{{ email|default:'' }}" class="input-ledger w-full text-body-md font-body-md" placeholder="Enter your email"/>
+</div>
+<div>
+<label for="username" class="text-label-md font-label-md text-on-surface-variant block mb-2">Username</label>
+<input id="username" name="username" type="text" value="{{ username|default:'' }}" class="input-ledger w-full text-body-md font-body-md" placeholder="Choose a username"/>
+</div>
+<div>
+<label for="password" class="text-label-md font-label-md text-on-surface-variant block mb-2">Password</label>
+<input id="password" name="password" type="password" class="input-ledger w-full text-body-md font-body-md" placeholder="Create a password"/>
+</div>
+<div>
+<label for="confirm_password" class="text-label-md font-label-md text-on-surface-variant block mb-2">Confirm Password</label>
+<input id="confirm_password" name="confirm_password" type="password" class="input-ledger w-full text-body-md font-body-md" placeholder="Confirm your password"/>
+</div>
+<div>
+<label for="address" class="text-label-md font-label-md text-on-surface-variant block mb-2">Address</label>
+<input id="address" name="address" type="text" value="{{ address|default:'' }}" class="input-ledger w-full text-body-md font-body-md" placeholder="Enter your address"/>
+</div>
+<div>
+<label for="code_postal" class="text-label-md font-label-md text-on-surface-variant block mb-2">Postal Code</label>
+<input id="code_postal" name="code_postal" type="text" value="{{ code_postal|default:'' }}" class="input-ledger w-full text-body-md font-body-md" placeholder="Enter your postal code"/>
+</div>
+{% if error %}
+<p class="text-error text-label-md font-label-md">{{ error }}</p>
+{% endif %}
+<button type="submit" class="w-full bg-primary-container text-on-primary-container px-6 py-3 rounded-DEFAULT text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors shadow-sm">
+    Register
+</button>
+</form>
+<p class="text-center text-label-md font-label-md text-on-surface-variant mt-6">
+    Already have an account?
+    <a href="{% url 'login' %}" class="text-primary hover:underline">Sign in</a>
+</p>
+</div>
+</section>
+{% endblock %}

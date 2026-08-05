@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }} - Knowledge Store{% endblock %}
+
+{% block content %}
+<main class="flex-grow w-full max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
+<nav class="text-caption font-caption text-on-surface-variant mb-8 flex items-center gap-2">
+<a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<a href="{% url 'shop' %}" class="hover:text-primary transition-colors">Collections</a>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="text-primary">{{ book.title }}</span>
+</nav>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter md:gap-16">
+<div class="md:col-span-5 flex flex-col items-center md:items-end">
+<div class="w-full max-w-sm rounded bg-surface-container-lowest shadow-ambient p-4 relative group">
+{% if book.image %}
+<img alt="{{ book.title }}" class="w-full h-auto object-cover rounded shadow-md aspect-[2/3]" src="{{ book.image.url }}"/>
+{% elif book.urlimg %}
+<img alt="{{ book.title }}" class="w-full h-auto object-cover rounded shadow-md aspect-[2/3]" src="{{ book.urlimg }}"/>
+{% else %}
+<div class="w-full aspect-[2/3] flex items-center justify-center bg-surface-container rounded">
+<span class="text-on-surface-variant text-label-md">No cover available</span>
+</div>
+{% endif %}
+<div class="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300 rounded"></div>
+</div>
+<div class="mt-8 flex gap-4 w-full max-w-sm justify-center">
+<button class="text-on-surface-variant hover:text-primary flex items-center gap-2 text-label-md font-label-md transition-colors">
+<span class="material-symbols-outlined text-[20px]">visibility</span>
+Look Inside
+</button>
+<div class="w-px h-4 bg-outline-variant/50 self-center"></div>
+<button class="text-on-surface-variant hover:text-primary flex items-center gap-2 text-label-md font-label-md transition-colors">
+<span class="material-symbols-outlined text-[20px]">share</span>
+Share
+</button>
+</div>
+</div>
+<div class="md:col-span-7 flex flex-col">
+<div class="mb-2">
+<span class="inline-block bg-tertiary-fixed text-on-tertiary-container px-3 py-1 rounded-full text-caption font-caption uppercase tracking-wider mb-4">Islamic Studies</span>
+</div>
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary mb-2">{{ book.title }}</h1>
+<a href="#" class="text-title-lg font-title-lg text-on-surface-variant hover:text-primary transition-colors mb-6 inline-block">{{ book.author }}</a>
+<div class="flex items-center gap-4 mb-8 pb-8 border-b border-outline-variant/30">
+<div class="flex items-center text-tertiary-fixed">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined">star_half</span>
+</div>
+<span class="text-label-md font-label-md text-on-surface-variant">4.2 / 5.0 (4,281 reviews)</span>
+</div>
+<div class="text-headline-sm font-headline-sm text-primary mb-6">
+    {{ book.price }} TND <span class="text-body-md font-body-md text-on-surface-variant ml-2">Hardcover</span>
+</div>
+<div class="prose prose-slate text-body-md font-body-md text-on-surface-variant mb-10 space-y-4 max-w-prose">
+<p>A timeless classic of Islamic scholarship. This volume explores the depths of knowledge and faith with clarity and insight.</p>
+<p>A treasured addition to any library, perfect for the discerning reader seeking wisdom and understanding.</p>
+</div>
+<div class="flex flex-col sm:flex-row gap-4 mb-12">
+{% if request.user.is_authenticated %}
+<a href="{% url 'ajouter_au_panier' book.id %}" class="bg-primary text-on-primary px-8 py-4 rounded hover:bg-inverse-surface transition-colors text-label-md font-label-md flex items-center justify-center gap-2 flex-1 sm:flex-none">
+<span class="material-symbols-outlined">local_mall</span>
+Add to Cart
+</a>
+{% else %}
+<a href="{% url 'login' %}" class="bg-primary text-on-primary px-8 py-4 rounded hover:bg-inverse-surface transition-colors text-label-md font-label-md flex items-center justify-center gap-2 flex-1 sm:flex-none">
+<span class="material-symbols-outlined">login</span>
+Login to Add to Cart
+</a>
+{% endif %}
+<button class="border border-tertiary-fixed text-primary px-8 py-4 rounded hover:bg-tertiary-fixed/20 transition-colors text-label-md font-label-md flex items-center justify-center gap-2 flex-1 sm:flex-none">
+<span class="material-symbols-outlined">favorite</span>
+Add to Wishlist
+</button>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-6 py-6 border-y border-outline-variant/30">
+<div>
+<div class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Author</div>
+<div class="text-label-md font-label-md text-primary">{{ book.author }}</div>
+</div>
+<div>
+<div class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Price</div>
+<div class="text-label-md font-label-md text-primary">{{ book.price }} TND</div>
+</div>
+<div>
+<div class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Format</div>
+<div class="text-label-md font-label-md text-primary">Hardcover</div>
+</div>
+<div>
+<div class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">In Stock</div>
+<div class="text-label-md font-label-md text-primary">Yes</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+{% endblock %}
