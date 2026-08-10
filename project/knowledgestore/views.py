@@ -4,6 +4,7 @@ from django.contrib import auth
 from django.contrib.auth.decorators import login_required
 from .models import Book, Commande, CommandeBooks, Panier, User
 from .forms import AddressForm
+from .ratelimit import rate_limit
 
 
 # Create your views here.
@@ -73,19 +74,41 @@ def login(request):
     if request.user.is_authenticated:
         return redirect('shop')
 
+    # Check for brute force protection
+    if request.session.get('_login_attempts', 0) >= 5:
+        locked_until = request.session.get('_login_locked_until', 0)
+        if locked_until:
+            return render(request, 'login.html', {
+                'error': 'Account locked.',
+                'locked_until': locked_until,
+            })
+
     context = {}
     if request.method == 'POST':
+        if not rate_limit(request, 'login', max_requests=5, window_seconds=300):
+            context = {
+                'error': 'Too many attempts. Please try again in a few minutes.',
+            }
+            return render(request, 'login.html', context)
+
         username = request.POST.get('username')
         password = request.POST.get('password')
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
+            request.session['_login_attempts'] = 0
             return redirect('shop')
-
-        context = {
-            'username': username,
-            'error': "Incorrect username or password.",
-        }
+        else:
+            request.session['_login_attempts'] = request.session.get('_login_attempts', 0) + 1
+            if request.session.get('_login_attempts', 0) >= 5:
+                request.session['_login_locked_until'] = (
+                    request.session.get('_login_locked_until', 0) + 3600
+                )
+            context = {
+                'username': username,
+                'error': 'Incorrect username or password.',
+                'locked_until': request.session.get('_login_locked_until'),
+            }
 
     return render(request, 'login.html', context)
 
@@ -97,6 +120,12 @@ def logout(request):
 def register(request):
     context = {}
     if request.method == 'POST':
+        if not rate_limit(request, 'register', max_requests=3, window_seconds=600):
+            context = {
+                'error': 'Too many registrations. Please try again later.',
+            }
+            return render(request, 'register.html', context)
+
         email = request.POST.get('email')
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -114,13 +143,26 @@ def register(request):
             context['error'] = "Passwords do not match."
             return render(request, 'register.html', context)
 
+        if len(password) < 8:
+            context['error'] = "Password must be at least 8 characters."
+            return render(request, 'register.html', context)
+
+        if username.lower() == password.lower():
+            context['error'] = "Password cannot match your username."
+            return render(request, 'register.html', context)
+
         if User.objects.filter(username=username).exists():
             context['error'] = "Username already exists."
+            return render(request, 'register.html', context)
+
+        if User.objects.filter(email=email).exists():
+            context['error'] = "Email already exists."
             return render(request, 'register.html', context)
 
         user = User.objects.create_user(username=username, email=email, password=password)
         user.address = address
         user.code_postal = code_postal
+        user.phone_number = request.POST.get('phone', '').strip()
         user.save()
         auth.login(request, user)
         return redirect('shop')
