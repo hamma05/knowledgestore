@@ -17,7 +17,10 @@
 </div>
 </div>
 <nav class="flex flex-col gap-2">
-
+<a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">person</span>
+<span class="text-label-md font-label-md">Personal Info</span>
+</a>
 <a href="{% url 'saved_addresses' %}" class="flex items-center gap-3 px-4 py-3 rounded-lg text-primary font-bold bg-surface-container-high dark:bg-surface-container-highest transition-transform scale-[0.98]">
 <span class="material-symbols-outlined">home</span>
 <span class="text-label-md font-label-md">Saved Addresses</span>
@@ -26,9 +29,27 @@
 <span class="material-symbols-outlined">receipt_long</span>
 <span class="text-label-md font-label-md">Order History</span>
 </a>
+<a href="#" class="flex items-center gap-3 px-4 py-3 rounded-lg text-on-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-container transition-all">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
 </nav>
 </aside>
 <div class="flex-1 min-w-0">
+<div class="flex gap-3 overflow-x-auto pb-4 mb-6 lg:hidden">
+<a href="#" class="flex items-center gap-2 px-4 py-2 rounded-full text-label-md font-label-md text-on-surface-variant hover:bg-surface-container transition-colors whitespace-nowrap flex-shrink-0">
+<span class="material-symbols-outlined text-lg">person</span>Personal Info
+</a>
+<a href="{% url 'saved_addresses' %}" class="flex items-center gap-2 px-4 py-2 rounded-full text-label-md font-label-md text-primary font-bold bg-surface-container-high whitespace-nowrap flex-shrink-0">
+<span class="material-symbols-outlined text-lg">home</span>Addresses
+</a>
+<a href="{% url 'order_history' %}" class="flex items-center gap-2 px-4 py-2 rounded-full text-label-md font-label-md text-on-surface-variant hover:bg-surface-container transition-colors whitespace-nowrap flex-shrink-0">
+<span class="material-symbols-outlined text-lg">receipt_long</span>Orders
+</a>
+<a href="#" class="flex items-center gap-2 px-4 py-2 rounded-full text-label-md font-label-md text-on-surface-variant hover:bg-surface-container transition-colors whitespace-nowrap flex-shrink-0">
+<span class="material-symbols-outlined text-lg">settings</span>Settings
+</a>
+</div>
 <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-tertiary-fixed-dim/30">
 <div>
 <h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary mb-2">Saved Addresses</h1>
@@ -65,8 +86,8 @@ Add New Address
 </p>
 </div>
 <div class="pl-16 flex gap-4 pt-4 border-t border-outline-variant/20">
-<a href="{% url 'edit_address' %}" class="text-label-md font-label-md text-secondary underline hover:text-primary transition-colors">Edit</a>
-<a href="{% url 'delete_address' %}" class="text-label-md font-label-md text-secondary underline hover:text-error transition-colors">Remove</a>
+<a href="{% url 'edit_address' %}" class="text-label-md font-label-md text-on-surface-variant underline hover:text-primary transition-colors">Edit</a>
+<a href="{% url 'delete_address' %}" class="text-label-md font-label-md text-on-surface-variant underline hover:text-error transition-colors">Remove</a>
 </div>
 </div>
 </div>

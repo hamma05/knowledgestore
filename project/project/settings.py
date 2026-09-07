@@ -27,6 +27,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-1!8d%ss*84%6)dg0$pw9e
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'  # False in production
 
 ALLOWED_HOSTS = [
+    '*',
     'knowledgestore-efmp.onrender.com',
 ]
 
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 USE_X_FORWARDED_HOST = True
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = DEBUG
 
 
 CSRF_COOKIE_SECURE = True
@@ -151,6 +152,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'knowledgestore.User'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STORAGES = {
     "staticfiles": {

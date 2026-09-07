@@ -15,9 +15,9 @@
 <div class="md:col-span-5 flex flex-col items-center md:items-end">
 <div class="w-full max-w-sm rounded bg-surface-container-lowest shadow-ambient p-4 relative group">
 {% if book.image %}
-<img alt="{{ book.title }}" class="w-full h-auto object-cover rounded shadow-md aspect-[2/3]" src="{{ book.image.url }}"/>
+<img alt="{{ book.title }}" class="w-full h-auto max-w-full object-cover rounded shadow-md aspect-[2/3]" src="{{ book.image.url }}"/>
 {% elif book.urlimg %}
-<img alt="{{ book.title }}" class="w-full h-auto object-cover rounded shadow-md aspect-[2/3]" src="{{ book.urlimg }}"/>
+<img alt="{{ book.title }}" class="w-full h-auto max-w-full object-cover rounded shadow-md aspect-[2/3]" src="{{ book.urlimg }}"/>
 {% else %}
 <div class="w-full aspect-[2/3] flex items-center justify-center bg-surface-container rounded">
 <span class="text-on-surface-variant text-label-md">No cover available</span>
@@ -45,10 +45,10 @@ Share
 <a href="#" class="text-title-lg font-title-lg text-on-surface-variant hover:text-primary transition-colors mb-6 inline-block">{{ book.author }}</a>
 <div class="flex items-center gap-4 mb-8 pb-8 border-b border-outline-variant/30">
 <div class="flex items-center text-tertiary-fixed">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined star-filled">star</span>
+<span class="material-symbols-outlined star-filled">star</span>
+<span class="material-symbols-outlined star-filled">star</span>
+<span class="material-symbols-outlined star-filled">star</span>
 <span class="material-symbols-outlined">star_half</span>
 </div>
 <span class="text-label-md font-label-md text-on-surface-variant">4.2 / 5.0 (4,281 reviews)</span>

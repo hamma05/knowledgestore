@@ -115,28 +115,35 @@ tailwind.config = {
   .input-ledger:focus { outline: none; box-shadow: none; border-bottom-color: theme('colors.primary'); }
   .line-clamp-3 { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
   .line-clamp-4 { display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+  .star-filled { font-variation-settings: 'FILL' 1; }
 </style>
 {% block extra_head %}{% endblock %}
 </head>
 <body class="bg-surface text-on-surface font-body-md text-body-md antialiased selection:bg-surface-dim selection:text-on-surface min-h-screen flex flex-col">
 
 <header class="bg-surface dark:bg-surface-container-low shadow-sm dark:shadow-none border-b border-outline-variant/30 dark:border-outline-variant/10 sticky top-0 z-50 w-full">
-<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
-<div class="flex items-center">
-<a class="text-headline-md font-headline-md text-primary dark:text-on-surface tracking-tight" href="{% url 'home' %}">Knowledge Store</a>
+<div class="flex flex-nowrap justify-between items-center w-full px-3 md:px-margin-desktop max-w-container-max mx-auto min-h-14 md:min-h-20 gap-2 md:gap-4">
+<div class="flex items-center shrink-0">
+<a class="text-title-lg md:text-headline-md font-title-lg md:font-headline-md text-primary dark:text-on-surface tracking-tight whitespace-nowrap" href="{% url 'home' %}">Knowledge Store</a>
 </div>
-<nav class="hidden md:flex items-center gap-8">
+
+{% if request.path == '/shop/' or request.path == '/authors/' %}
+<div class="relative min-w-0 flex-1">
+<form action="{% url 'search' %}" method="get" class="flex items-center">
+<input name="q" class="bg-surface-container-lowest border-0 border-b border-outline-variant text-body-md font-body-md focus:ring-0 focus:border-primary pl-0 pr-8 py-1.5 md:py-2 w-full transition-all hover:border-outline bg-transparent placeholder-on-surface-variant/50" placeholder="Search..." type="text" value="{{ query|default:'' }}"/>
+<button type="submit" class="material-symbols-outlined absolute right-2 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none cursor-pointer">search</button>
+</form>
+</div>
+{% endif %}
+
+<nav class="hidden md:flex items-center gap-8 shrink-0">
 <a class="{% if request.path == '/shop/' %}text-primary dark:text-on-surface border-b-2 border-primary pb-1{% else %}text-on-surface-variant dark:text-outline hover:text-primary transition-colors{% endif %} text-label-md font-label-md transition-all duration-300 ease-in-out" href="{% url 'shop' %}">Shop</a>
 <a class="{% if request.path == '/' %}text-primary dark:text-on-surface border-b-2 border-primary pb-1{% else %}text-on-surface-variant dark:text-outline hover:text-primary transition-colors{% endif %} text-label-md font-label-md transition-all duration-300 ease-in-out" href="{% url 'home' %}">Discovery</a>
 <a class="{% if request.path == '/authors/' %}text-primary dark:text-on-surface border-b-2 border-primary pb-1{% else %}text-on-surface-variant dark:text-outline hover:text-primary transition-colors{% endif %} text-label-md font-label-md transition-all duration-300 ease-in-out" href="{% url 'authors' %}">Authors</a>
 </nav>
-<div class="flex items-center gap-4">
-<div class="relative hidden sm:block">
-<form action="{% url 'search' %}" method="get" class="flex items-center">
-<input name="q" class="bg-surface-container-lowest border-0 border-b border-outline-variant text-body-md font-body-md focus:ring-0 focus:border-primary pl-0 pr-8 py-2 w-48 transition-all hover:border-outline bg-transparent placeholder-on-surface-variant/50" placeholder="Search curated titles..." type="text" value="{{ query|default:'' }}"/>
-<button type="submit" class="material-symbols-outlined absolute right-0 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none cursor-pointer">search</button>
-</form>
-</div>
+
+<div class="flex items-center gap-3 shrink-0">
+<div class="flex items-center gap-3 hidden md:flex">
 {% if request.user.is_authenticated %}
 <a href="{% url 'panier' request.user.id %}" class="p-2 text-on-surface-variant hover:text-primary dark:hover:text-on-surface-variant transition-all rounded-full flex items-center justify-center relative">
 <span class="material-symbols-outlined">shopping_cart</span>
@@ -152,10 +159,32 @@ tailwind.config = {
 <span class="material-symbols-outlined">logout</span>
 </a>
 {% else %}
-<a href="{% url 'login' %}" class="p-2 text-on-surface-variant hover:text-primary dark:hover:text-on-surface-variant transition-all rounded-full flex items-center justify-center">
-<span class="material-symbols-outlined">person</span>
+<a href="{% url 'login' %}" class="bg-primary-container text-on-primary-container px-5 py-2 rounded-full text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors flex items-center gap-2">
+<span class="material-symbols-outlined text-lg">login</span>Login
 </a>
 {% endif %}
+</div>
+<details class="mobile-menu relative shrink-0 md:hidden">
+<summary class="list-none w-9 h-9 md:w-11 md:h-11 rounded-full border border-outline-variant/40 bg-surface-container-lowest text-primary flex items-center justify-center cursor-pointer">
+<span class="material-symbols-outlined text-[20px] md:text-2xl">menu</span>
+</summary>
+<nav class="absolute right-0 top-full mt-2 flex flex-col gap-2 p-4 bg-surface-container-lowest rounded-lg shadow-sm border border-outline-variant/20 w-56 max-h-80 overflow-y-auto z-50">
+{% if request.user.is_authenticated %}
+<a class="{% if request.path == '/shop/' %}text-primary font-bold{% else %}text-on-surface-variant hover:text-primary{% endif %} text-label-md font-label-md py-2 transition-colors flex items-center gap-2" href="{% url 'shop' %}"><span class="material-symbols-outlined text-lg">store</span>Shop</a>
+<a class="{% if request.path == '/' %}text-primary font-bold{% else %}text-on-surface-variant hover:text-primary{% endif %} text-label-md font-label-md py-2 transition-colors flex items-center gap-2" href="{% url 'home' %}"><span class="material-symbols-outlined text-lg">explore</span>Discovery</a>
+<a class="{% if request.path == '/authors/' %}text-primary font-bold{% else %}text-on-surface-variant hover:text-primary{% endif %} text-label-md font-label-md py-2 transition-colors flex items-center gap-2" href="{% url 'authors' %}"><span class="material-symbols-outlined text-lg">menu_book</span>Authors</a>
+<a class="text-label-md font-label-md py-2 transition-colors flex items-center gap-2 text-on-surface-variant hover:text-primary" href="{% url 'panier' request.user.id %}"><span class="material-symbols-outlined text-lg">shopping_cart</span>Cart{% if request.user.panier_set.count %}<span class="bg-tertiary-fixed-dim text-on-tertiary-fixed text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">{{ request.user.panier_set.count }}</span>{% endif %}</a>
+<a class="text-label-md font-label-md py-2 transition-colors flex items-center gap-2 text-on-surface-variant hover:text-primary" href="{% url 'commande' request.user.id %}"><span class="material-symbols-outlined text-lg">receipt_long</span>Orders</a>
+<a class="text-label-md font-label-md py-2 transition-colors flex items-center gap-2 text-on-surface-variant hover:text-primary" href="{% url 'saved_addresses' %}"><span class="material-symbols-outlined text-lg">home</span>Addresses</a>
+<a class="text-label-md font-label-md py-2 transition-colors flex items-center gap-2 text-on-surface-variant hover:text-primary" href="{% url 'logout' %}"><span class="material-symbols-outlined text-lg">logout</span>Logout</a>
+{% else %}
+<a class="{% if request.path == '/shop/' %}text-primary font-bold{% else %}text-on-surface-variant hover:text-primary{% endif %} text-label-md font-label-md py-2 transition-colors flex items-center gap-2" href="{% url 'shop' %}"><span class="material-symbols-outlined text-lg">store</span>Shop</a>
+<a class="{% if request.path == '/' %}text-primary font-bold{% else %}text-on-surface-variant hover:text-primary{% endif %} text-label-md font-label-md py-2 transition-colors flex items-center gap-2" href="{% url 'home' %}"><span class="material-symbols-outlined text-lg">explore</span>Discovery</a>
+<a class="{% if request.path == '/authors/' %}text-primary font-bold{% else %}text-on-surface-variant hover:text-primary{% endif %} text-label-md font-label-md py-2 transition-colors flex items-center gap-2" href="{% url 'authors' %}"><span class="material-symbols-outlined text-lg">menu_book</span>Authors</a>
+<a class="text-label-md font-label-md py-2 transition-colors flex items-center gap-2 text-on-surface-variant hover:text-primary" href="{% url 'login' %}"><span class="material-symbols-outlined text-lg">login</span>Login</a>
+{% endif %}
+</nav>
+</details>
 </div>
 </div>
 </header>

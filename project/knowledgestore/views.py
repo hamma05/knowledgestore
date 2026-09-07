@@ -1,3 +1,6 @@
+import time
+from builtins import TypeError
+
 from django.db import models
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import auth
@@ -75,9 +78,18 @@ def login(request):
         return redirect('shop')
 
     # Check for brute force protection
-    if request.session.get('_login_attempts', 0) >= 5:
+    login_attempts = 0
+    try:
+        login_attempts = int(request.session.get('_login_attempts', 0))
+    except (ValueError, TypeError):
+        login_attempts = 0
+    if login_attempts >= 5:
         locked_until = request.session.get('_login_locked_until', 0)
-        if locked_until:
+        try:
+            locked_until = int(locked_until)
+        except (ValueError, TypeError):
+            locked_until = 0
+        if locked_until and locked_until > int(time.time()):
             return render(request, 'login.html', {
                 'error': 'Account locked.',
                 'locked_until': locked_until,
@@ -99,11 +111,13 @@ def login(request):
             request.session['_login_attempts'] = 0
             return redirect('shop')
         else:
-            request.session['_login_attempts'] = request.session.get('_login_attempts', 0) + 1
-            if request.session.get('_login_attempts', 0) >= 5:
-                request.session['_login_locked_until'] = (
-                    request.session.get('_login_locked_until', 0) + 3600
-                )
+            try:
+                login_attempts = int(request.session.get('_login_attempts', 0)) + 1
+            except (ValueError, TypeError):
+                login_attempts = 1
+            request.session['_login_attempts'] = login_attempts
+            if login_attempts >= 5:
+                request.session['_login_locked_until'] = int(time.time()) + 3600
             context = {
                 'username': username,
                 'error': 'Incorrect username or password.',
@@ -188,9 +202,10 @@ def adresse(request, item_id):
     )
 
     if request.method == 'POST':
+        user_address = request.user.address or ''
         commande = Commande.objects.create(
             user=request.user,
-            adresse=request.user.address,
+            adresse=user_address,
         )
         CommandeBooks.objects.create(
             commande=commande,

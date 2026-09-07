@@ -1,7 +1,39 @@
-<footer style="text-align: center; padding: 20px; background-color: #333; color: white; font-size: 18px; margin-bottom: 0px;">
-    Email: knowledgestore@gmail.com
-    <br>
-    Phone: +216 55 555 555
-    <br>
-    Copyright 2025 Knowledge Store. All rights reserved.
-</footer>
+{% extends 'base.html' %}
+
+{% block title %}Contact - Knowledge Store{% endblock %}
+
+{% block content %}
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16">
+<div class="max-w-md mx-auto text-center">
+<div class="bg-surface-container p-4 rounded-full text-primary mb-6 mx-auto w-max">
+<span class="material-symbols-outlined text-[32px]">mail</span>
+</div>
+<h1 class="text-headline-md font-headline-md text-primary mb-4">Contact Us</h1>
+<p class="text-body-md font-body-md text-on-surface-variant mb-8">Get in touch with our team for any questions or support.</p>
+<div class="flex flex-col gap-6">
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/20">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container p-3 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined">email</span>
+</div>
+<div class="text-left">
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Email</p>
+<p class="text-label-md font-label-md text-primary">knowledgestore@gmail.com</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-6 shadow-sm border border-outline-variant/20">
+<div class="flex items-center gap-4">
+<div class="bg-surface-container p-3 rounded-full text-on-surface-variant">
+<span class="material-symbols-outlined">phone</span>
+</div>
+<div class="text-left">
+<p class="text-caption font-caption text-on-surface-variant uppercase tracking-wider mb-1">Phone</p>
+<p class="text-label-md font-label-md text-primary">+216 55 555 555</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+{% endblock %}

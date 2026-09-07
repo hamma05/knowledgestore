@@ -1,80 +1,91 @@
 {% extends 'base.html' %}
 
+{% block title %}Panier - Knowledge Store{% endblock %}
+
 {% block content %}
-<style>
-    .btn-danger {
-        
-        padding: 10px;
-        border: none;
-        background: #b54848;
-        color: white;
-        width: 100%;
-        border-radius: 8px;
-        cursor: pointer;
-        text-decoration: none;
-        margin: 5px ;
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12">
+<h1 class="text-display-lg-mobile md:text-display-lg font-display-lg-mobile md:font-display-lg text-primary mb-8">Mon Panier</h1>
 
-    }
-    .btn-danger:hover {
-        background: #b54848;
-    }
-    .btn-buy {
-        
-        padding: 10px;
-        border: none;
-        background: #4CAF50;
-        color: white;
-        width: 100%;
-        border-radius: 8px;
-        cursor: pointer;
-        text-decoration: none;
-        margin: 5px ;
-
-    }
-    .btn-buy:hover {
-        background: #4CAF50;
-    }
-</style>
-<section style="background: white; padding: 24px; border-radius: 12px; box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);">
-    <h2>Mon Panier</h2>
-
-    {% if panier_items %}
-    <table style="width: 100%; border-collapse: collapse;">
-        <thead>
-            <tr>
-                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Image</th>
-                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Title</th>
-                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Quantity</th>
-                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Price</th>
-                <th style="text-align: left; padding: 12px; border-bottom: 1px solid #ddd;">Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in panier_items %}
-            <tr>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">
-                    {% if item.book.image %}
-                    <img src="{{ item.book.image.url }}" alt="{{ item.book.title }}" style="width: 55px; height: 75px; object-fit: cover; border-radius: 6px;">
-                    {% elif item.book.urlimg %}
-                    <img src="{{ item.book.urlimg }}" alt="{{ item.book.title }}" style="width: 55px; height: 75px; object-fit: cover; border-radius: 6px;">
-                    {% else %}
-                    <span style="color: #888;">No image</span>
-                    {% endif %}
-                </td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ item.book.title }}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ item.quantity }}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ item.book.price }}</td>
-                <td style="padding: 12px; border-bottom: 1px solid #eee;">{{ item.get_total_price }}</td>
-        
-                <td><a href="{% url 'pass_commande' item.id %}" class="btn btn-buy" >Acheter </a></td>
-                <td><a href="{% url 'supprimer_du_panier' item.id %}" class="btn btn-danger" >Supprimer </a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% else %}
-    <p>Your basket is empty.</p>
-    <p><a href="{% url 'shop' %}" class="btn btn-buy" >Continue shopping</a></p>
-    {% endif %}
+{% if panier_items %}
+<div class="hidden md:block overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="border-b border-outline-variant/30">
+<th class="text-left py-3 px-4 text-label-md font-label-md text-on-surface-variant">Image</th>
+<th class="text-left py-3 px-4 text-label-md font-label-md text-on-surface-variant">Title</th>
+<th class="text-left py-3 px-4 text-label-md font-label-md text-on-surface-variant">Quantity</th>
+<th class="text-left py-3 px-4 text-label-md font-label-md text-on-surface-variant">Price</th>
+<th class="text-left py-3 px-4 text-label-md font-label-md text-on-surface-variant">Total</th>
+<th class="text-left py-3 px-4 text-label-md font-label-md text-on-surface-variant">Actions</th>
+</tr>
+</thead>
+<tbody>
+{% for item in panier_items %}
+<tr class="border-b border-outline-variant/10 hover:bg-surface-container-lowest transition-colors">
+<td class="py-3 px-4">
+{% if item.book.image %}
+<img class="w-14 h-16 object-cover rounded-lg" src="{{ item.book.image.url }}" alt="{{ item.book.title }}"/>
+{% elif item.book.urlimg %}
+<img class="w-14 h-16 object-cover rounded-lg" src="{{ item.book.urlimg }}" alt="{{ item.book.title }}"/>
+{% else %}
+<span class="text-on-surface-variant text-caption">No image</span>
+{% endif %}
+</td>
+<td class="py-3 px-4 text-label-md font-label-md text-primary">{{ item.book.title }}</td>
+<td class="py-3 px-4 text-label-md font-label-md text-on-surface-variant">{{ item.quantity }}</td>
+<td class="py-3 px-4 text-label-md font-label-md text-on-surface-variant">{{ item.book.price }} TND</td>
+<td class="py-3 px-4 text-label-md font-label-md text-primary">{{ item.get_total_price }} TND</td>
+<td class="py-3 px-4">
+<div class="flex gap-2">
+<a href="{% url 'pass_commande' item.id %}" class="bg-primary-container text-on-primary-container px-4 py-2 rounded text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors">Buy</a>
+<a href="{% url 'supprimer_du_panier' item.id %}" class="bg-error-container text-error px-4 py-2 rounded text-label-md font-label-md hover:bg-error/80 transition-colors">Remove</a>
+</div>
+</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+</div>
+<div class="md:hidden flex flex-col gap-4">
+{% for item in panier_items %}
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm border border-outline-variant/20">
+<div class="flex items-center gap-4 mb-3">
+{% if item.book.image %}
+<img class="w-16 h-20 object-cover rounded-lg" src="{{ item.book.image.url }}" alt="{{ item.book.title }}"/>
+{% elif item.book.urlimg %}
+<img class="w-16 h-20 object-cover rounded-lg" src="{{ item.book.urlimg }}" alt="{{ item.book.title }}"/>
+{% else %}
+<div class="w-16 h-20 flex items-center justify-center bg-surface rounded">
+<span class="text-on-surface-variant text-caption">No image</span>
+</div>
+{% endif %}
+<div class="flex-1 min-w-0">
+<h4 class="text-label-md font-label-md text-primary truncate">{{ item.book.title }}</h4>
+<p class="text-caption font-caption text-on-surface-variant">{{ item.book.price }} TND</p>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-label-md font-label-md text-on-surface-variant">Qty: {{ item.quantity }}</span>
+<span class="text-label-md font-label-md text-primary">{{ item.get_total_price }} TND</span>
+</div>
+<div class="flex gap-2 mt-3">
+<a href="{% url 'pass_commande' item.id %}" class="bg-primary-container text-on-primary-container px-4 py-2 rounded text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors flex-1 text-center">Buy</a>
+<a href="{% url 'supprimer_du_panier' item.id %}" class="bg-error-container text-error px-4 py-2 rounded text-label-md font-label-md hover:bg-error/80 transition-colors flex-1 text-center">Remove</a>
+</div>
+</div>
+{% endfor %}
+</div>
+{% else %}
+<div class="bg-surface-container-lowest rounded-xl p-12 text-center border border-outline-variant/20">
+<div class="bg-surface-container p-4 rounded-full text-primary mb-4 mx-auto w-max">
+<span class="material-symbols-outlined text-[32px]">shopping_cart</span>
+</div>
+<h3 class="text-title-lg font-title-lg text-primary mb-2">Your basket is empty</h3>
+<p class="text-body-md font-body-md text-on-surface-variant">Add some books to get started.</p>
+<a href="{% url 'shop' %}" class="mt-6 inline-block bg-primary-container text-on-primary-container px-6 py-3 rounded text-label-md font-label-md hover:bg-surface-tint hover:text-on-primary transition-colors">
+Continue Shopping
+</a>
+</div>
+{% endif %}
 </section>
 {% endblock %}
